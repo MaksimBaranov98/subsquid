@@ -1,11 +1,11 @@
 manifestVersion: subsquid.io/v0.1
-name: kusama-test
+name: subsquid
 version: 1
-description: 'The very first squid from manifest  '
-build: 
+description: 'The very first squid from manifest'
+build:
 deploy:
   addons:
-    postgres: 
+    postgres:
   processor:
     cmd:
       - node

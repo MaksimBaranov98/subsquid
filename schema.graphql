@@ -1,19 +1,39 @@
-type Account @entity {
-  "Account address"
-  id: ID!
-  transfersTo: [Transfer!] @derivedFrom(field: "to")
-  transfersFrom: [Transfer!] @derivedFrom(field: "from")
+type Transfer @entity {
+  amount: String!
+  to: String!
+  from: String!
+  fee: String!
+  eventIdx: Int!
+  success: Boolean!
 }
 
-type Transfer @entity {
+type Reward @jsonField {
+  eventIdx: Int!
+  amount: String!
+  isReward: Boolean!,
+  era: Int,
+  stash: String,
+  validator: String
+}
+
+type Extrinsic @jsonField {
+  hash: String!
+  module: String!
+  call: String!
+  fee: String!
+  success: Boolean!
+}
+
+type HistoryElement @entity {
   id: ID!
-  blockNumber: Int! @index
-  timestamp: DateTime! @index
-  extrinsicHash: String @index
-  from: Account!
-  to: Account!
-  amount: BigInt! @index
-  fee: BigInt! # fee is calculated at the best effort and may be zero for some old extrinsics
+  blockNumber: Int!
+  extrinsicIdx: Int,
+  extrinsicHash: String
+  timestamp: BigInt! @index
+  address: String! @index
+  reward: Reward
+  extrinsic: Extrinsic
+  transfer: Transfer
 }
 
 type AccumulatedReward @entity {
@@ -38,7 +58,55 @@ type AccumulatedStake @entity {
   amount: BigInt!
 }
 
+type EraValidatorInfo @entity {
+  id: ID!
+  address: String! @index
+  era: Int! @index
+  total: BigInt!
+  own: BigInt!
+  others: [IndividualExposure]!
+}
+
+type IndividualExposure @jsonField {
+  who: String!
+  value: String!
+}
+
 type ErrorEvent @entity {
   id: ID!
   description: String!
 }
+
+#### Раньше не было
+
+enum TransferDirection {
+  From
+  To
+}
+
+union TransferLocation = TransferLocationAccount | TransferLocationEvm | TransferLocationXcm
+
+type TransferLocationAccount {
+  id: String!
+}
+
+type TransferLocationEvm {
+  address: String!
+}
+
+type TransferLocationXcm {
+  id: String
+  paraId: Int
+}
+
+type Account @entity {
+  id: ID!
+  transfers: [AccountTransfer!] @derivedFrom(field: "account")
+}
+
+type AccountTransfer @entity {
+  transfer: Transfer
+  account: Account!
+  direction: TransferDirection
+}
+
