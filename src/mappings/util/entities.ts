@@ -1,5 +1,6 @@
 import {
     Transfer,
+    HistoryElement
 } from '../../model'
 import { CommonHandlerContext } from '../types/contexts'
 
@@ -11,13 +12,18 @@ export interface TransferData {
     success: boolean
     fee: string
     eventIdx: number
+    timestamp: number
+    extrinsicHash: string
+    extrinsicIdx: string
+    blockNumber: number
 }
 
 export async function saveTransfer(ctx: CommonHandlerContext, data: TransferData) {
-    const { fromId, toId, amount, success, fee, eventIdx, id } = data
+    const { fromId, toId, amount, success, fee, eventIdx, id, timestamp, extrinsicHash, extrinsicIdx, blockNumber } = data
 
+    const reward = null;
+    const extrinsic = null;
     const transfer = new Transfer({
-        id,
         from: fromId,
         to: toId ?? '',
         success,
@@ -26,5 +32,35 @@ export async function saveTransfer(ctx: CommonHandlerContext, data: TransferData
         fee
     })
 
-    await ctx.store.insert(transfer)
+    // await ctx.store.insert(transfer)
+
+    const historyElementFrom = new HistoryElement({
+        id: `${id}-from`,
+        address: fromId,
+        blockNumber,
+        extrinsicIdx,
+        extrinsicHash,
+        timestamp: 1,
+        extrinsic,
+        reward,
+        transfer
+    })
+
+    await ctx.store.insert(historyElementFrom)
+
+    if (toId) {
+        const historyElementTo = new HistoryElement({
+            id: `${id}-to`,
+            address: toId,
+            blockNumber,
+            extrinsicIdx,
+            extrinsicHash,
+            timestamp: 1,
+            extrinsic,
+            reward,
+            transfer
+        })
+
+        await ctx.store.insert(historyElementTo)
+    }
 }
