@@ -44,10 +44,10 @@ export async function handleForceTransfer(ctx: CallHandlerContext) {
     const data = getCallData(ctx)
     if (!data) return
 
-    await saveTransfer(ctx, {
-        fromId: encodeId(data.from),
-        toId: isAdressSS58(data.to) ? encodeId(data.to) : null,
-        amount: data.amount,
-        success: ctx.call.success,
-    })
+    // await saveTransfer(ctx, {
+    //     fromId: encodeId(data.from),
+    //     toId: isAdressSS58(data.to) ? encodeId(data.to) : null,
+    //     amount: data.amount,
+    //     success: ctx.call.success,
+    // })
 }

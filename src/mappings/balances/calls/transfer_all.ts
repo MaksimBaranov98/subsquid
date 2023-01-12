@@ -31,10 +31,10 @@ export async function handleTransferAll(ctx: CallHandlerContext) {
     const accountId = getOriginAccountId(ctx.call.origin)
     if (!accountId) return
 
-    await saveTransfer(ctx, {
-        fromId: accountId,
-        toId: isAdressSS58(data.to) ? encodeId(data.to) : null,
-        amount: 0n,
-        success: ctx.call.success,
-    })
+    // await saveTransfer(ctx, {
+    //     fromId: accountId,
+    //     toId: isAdressSS58(data.to) ? encodeId(data.to) : null,
+    //     amount: 0n,
+    //     success: ctx.call.success,
+    // })
 }

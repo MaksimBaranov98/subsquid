@@ -1,4 +1,5 @@
 type Transfer @entity {
+  id: ID!
   amount: String!
   to: String!
   from: String!
@@ -76,37 +77,3 @@ type ErrorEvent @entity {
   id: ID!
   description: String!
 }
-
-#### Раньше не было
-
-enum TransferDirection {
-  From
-  To
-}
-
-union TransferLocation = TransferLocationAccount | TransferLocationEvm | TransferLocationXcm
-
-type TransferLocationAccount {
-  id: String!
-}
-
-type TransferLocationEvm {
-  address: String!
-}
-
-type TransferLocationXcm {
-  id: String
-  paraId: Int
-}
-
-type Account @entity {
-  id: ID!
-  transfers: [AccountTransfer!] @derivedFrom(field: "account")
-}
-
-type AccountTransfer @entity {
-  transfer: Transfer
-  account: Account!
-  direction: TransferDirection
-}
-

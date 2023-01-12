@@ -39,20 +39,23 @@ function getCallData(ctx: CallContext): EventData | undefined {
 export async function handleTransfer(ctx: CallHandlerContext) {
     const data = getCallData(ctx)
 
-    console.log('data', data);
+    console.log('dataa', data);
 
     if (!data) return
 
     const accountId = getOriginAccountId(ctx.call.origin)
 
-    console.log('accountId', accountId);
+    console.log('accountIdd', accountId);
 
     if (!accountId) return
 
     await saveTransfer(ctx, {
+        id: ctx.call.id,
         fromId: accountId,
         toId: isAdressSS58(data.to) ? encodeId(data.to) : null,
         amount: data.amount,
         success: ctx.call.success,
+        fee: '*****',
+        eventIdx: 1
     })
 }
