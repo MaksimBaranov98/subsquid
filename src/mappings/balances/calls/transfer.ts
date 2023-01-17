@@ -45,8 +45,6 @@ export async function handleTransfer(ctx: CallHandlerContext) {
 
     if (!accountId) return
 
-    console.log('ctxctxctx', ctx);
-
     await saveTransfer(ctx, {
         id: ctx.call.id,
         fromId: accountId,
@@ -57,7 +55,7 @@ export async function handleTransfer(ctx: CallHandlerContext) {
         extrinsicHash: ctx.extrinsic.hash,
         extrinsicIdx: ctx.extrinsic.id,
         blockNumber: ctx.block.height,
-        fee: '*****',
+        fee: ctx.extrinsic.fee,
         eventIdx: 1,
     })
 }

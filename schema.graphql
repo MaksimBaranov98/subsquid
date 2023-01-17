@@ -2,13 +2,13 @@ type Transfer @jsonField {
   amount: String!
   to: String!
   from: String!
-  fee: String!
-  eventIdx: Int!
+  fee: BigInt
+  eventIdx: String!
   success: Boolean!
 }
 
 type Reward @jsonField {
-  eventIdx: Int!
+  eventIdx: String!
   amount: String!
   isReward: Boolean!,
   era: Int,
@@ -29,7 +29,7 @@ type HistoryElement @entity {
   blockNumber: Int!
   extrinsicIdx: String,
   extrinsicHash: String
-  timestamp: Int! @index
+  timestamp: BigInt!
   address: String! @index
   reward: Reward
   extrinsic: Extrinsic

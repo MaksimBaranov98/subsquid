@@ -5,7 +5,7 @@ export class Transfer {
     private _amount!: string
     private _to!: string
     private _from!: string
-    private _fee!: string
+    private _fee!: bigint | undefined | null
     private _eventIdx!: number
     private _success!: boolean
 
@@ -15,7 +15,7 @@ export class Transfer {
             this._amount = marshal.string.fromJSON(json.amount)
             this._to = marshal.string.fromJSON(json.to)
             this._from = marshal.string.fromJSON(json.from)
-            this._fee = marshal.string.fromJSON(json.fee)
+            this._fee = json.fee == null ? undefined : marshal.bigint.fromJSON(json.fee)
             this._eventIdx = marshal.int.fromJSON(json.eventIdx)
             this._success = marshal.boolean.fromJSON(json.success)
         }
@@ -48,12 +48,11 @@ export class Transfer {
         this._from = value
     }
 
-    get fee(): string {
-        assert(this._fee != null, 'uninitialized access')
+    get fee(): bigint | undefined | null {
         return this._fee
     }
 
-    set fee(value: string) {
+    set fee(value: bigint | undefined | null) {
         this._fee = value
     }
 
@@ -80,7 +79,7 @@ export class Transfer {
             amount: this.amount,
             to: this.to,
             from: this.from,
-            fee: this.fee,
+            fee: this.fee == null ? undefined : marshal.bigint.toJSON(this.fee),
             eventIdx: this.eventIdx,
             success: this.success,
         }

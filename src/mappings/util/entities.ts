@@ -10,7 +10,7 @@ export interface TransferData {
     toId: string | null
     amount: bigint
     success: boolean
-    fee: string
+    fee?: bigint
     eventIdx: number
     timestamp: number
     extrinsicHash: string
@@ -21,8 +21,6 @@ export interface TransferData {
 export async function saveTransfer(ctx: CommonHandlerContext, data: TransferData) {
     const { fromId, toId, amount, success, fee, eventIdx, id, timestamp, extrinsicHash, extrinsicIdx, blockNumber } = data
 
-    const reward = null;
-    const extrinsic = null;
     const transfer = new Transfer({
         from: fromId,
         to: toId ?? '',
@@ -32,18 +30,16 @@ export async function saveTransfer(ctx: CommonHandlerContext, data: TransferData
         fee
     })
 
-    // await ctx.store.insert(transfer)
-
     const historyElementFrom = new HistoryElement({
         id: `${id}-from`,
         address: fromId,
+        timestamp: BigInt(timestamp),
         blockNumber,
         extrinsicIdx,
         extrinsicHash,
-        timestamp: 1,
-        extrinsic,
-        reward,
-        transfer
+        transfer,
+        extrinsic: null,
+        reward: null,
     })
 
     await ctx.store.insert(historyElementFrom)
@@ -52,13 +48,13 @@ export async function saveTransfer(ctx: CommonHandlerContext, data: TransferData
         const historyElementTo = new HistoryElement({
             id: `${id}-to`,
             address: toId,
+            timestamp: BigInt(timestamp),
             blockNumber,
             extrinsicIdx,
             extrinsicHash,
-            timestamp: 1,
-            extrinsic,
-            reward,
-            transfer
+            transfer,
+            extrinsic: null,
+            reward: null,
         })
 
         await ctx.store.insert(historyElementTo)
