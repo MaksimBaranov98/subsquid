@@ -3,30 +3,25 @@ import {
     HistoryElement
 } from '../../model'
 import { CommonHandlerContext } from '../types/contexts'
+import { ActionData } from '../types/data'
 
-export interface TransferData {
-    id: string,
+export interface TransferData extends ActionData {
     fromId: string
     toId: string | null
     amount: bigint
     success: boolean
     fee?: bigint
-    eventIdx: number
-    timestamp: number
-    extrinsicHash: string
-    extrinsicIdx: string
-    blockNumber: number
 }
 
 export async function saveTransfer(ctx: CommonHandlerContext, data: TransferData) {
-    const { fromId, toId, amount, success, fee, eventIdx, id, timestamp, extrinsicHash, extrinsicIdx, blockNumber } = data
+    const { fromId, toId, amount, success, fee, id, timestamp, extrinsicHash, extrinsicIdx, blockNumber } = data
 
     const transfer = new Transfer({
         from: fromId,
         to: toId ?? '',
         success,
         amount: amount.toString(),
-        eventIdx,
+        eventIdx: id,
         fee
     })
 

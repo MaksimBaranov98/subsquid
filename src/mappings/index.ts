@@ -1,3 +1,4 @@
 import balances from './balances'
+import staking from './staking'
 
-export { balances }
+export { balances, staking }

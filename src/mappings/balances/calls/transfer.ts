@@ -15,18 +15,21 @@ function getCallData(ctx: CallContext): EventData | undefined {
         return undefined
     } else if (call.isV1050) {
         const { dest, value } = call.asV1050
+
         return {
             to: dest as Uint8Array,
             amount: value,
         }
     } else if (call.isV2028) {
         const { dest, value } = call.asV2028
+
         return {
             to: dest.value as Uint8Array,
             amount: value,
         }
     } else if (call.isV9111) {
         const { dest, value } = call.asV9111
+
         return {
             to: dest.value as Uint8Array,
             amount: value,
@@ -47,15 +50,14 @@ export async function handleTransfer(ctx: CallHandlerContext) {
 
     await saveTransfer(ctx, {
         id: ctx.call.id,
+        extrinsicHash: ctx.extrinsic.hash,
+        timestamp: ctx.block.timestamp,
+        blockNumber: ctx.block.height,
         fromId: accountId,
         toId: isAdressSS58(data.to) ? encodeId(data.to) : null,
         amount: data.amount,
         success: ctx.call.success,
-        timestamp: ctx.block.timestamp,
-        extrinsicHash: ctx.extrinsic.hash,
         extrinsicIdx: ctx.extrinsic.id,
-        blockNumber: ctx.block.height,
         fee: ctx.extrinsic.fee,
-        eventIdx: 1,
     })
 }

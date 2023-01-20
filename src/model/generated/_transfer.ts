@@ -6,7 +6,7 @@ export class Transfer {
     private _to!: string
     private _from!: string
     private _fee!: bigint | undefined | null
-    private _eventIdx!: number
+    private _eventIdx!: string
     private _success!: boolean
 
     constructor(props?: Partial<Omit<Transfer, 'toJSON'>>, json?: any) {
@@ -16,7 +16,7 @@ export class Transfer {
             this._to = marshal.string.fromJSON(json.to)
             this._from = marshal.string.fromJSON(json.from)
             this._fee = json.fee == null ? undefined : marshal.bigint.fromJSON(json.fee)
-            this._eventIdx = marshal.int.fromJSON(json.eventIdx)
+            this._eventIdx = marshal.string.fromJSON(json.eventIdx)
             this._success = marshal.boolean.fromJSON(json.success)
         }
     }
@@ -56,12 +56,12 @@ export class Transfer {
         this._fee = value
     }
 
-    get eventIdx(): number {
+    get eventIdx(): string {
         assert(this._eventIdx != null, 'uninitialized access')
         return this._eventIdx
     }
 
-    set eventIdx(value: number) {
+    set eventIdx(value: string) {
         this._eventIdx = value
     }
 

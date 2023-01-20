@@ -13,6 +13,9 @@ processor.setDataSource(config.dataSource)
 processor.setPrometheusPort(config.port || DEFAULT_PORT)
 processor.setBlockRange(config.blockRange || { from: 0 })
 
+//events handlers
+processor.addEventHandler('Staking.Rewarded', modules.staking.events.handleRewarded)
+
 processor.addCallHandler(
     'Balances.transfer',
     { triggerForFailedCalls: true },
