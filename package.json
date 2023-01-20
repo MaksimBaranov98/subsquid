@@ -1,6 +1,9 @@
 {
   "name": "kusama-transfers",
   "private": true,
+  "engines": {
+    "node": ">=16"
+  },
   "scripts": {
     "build": "rm -rf lib && tsc",
     "update": "npx npm-check-updates --filter /subsquid/ --upgrade && npm i -f",

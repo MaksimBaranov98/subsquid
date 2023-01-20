@@ -43,10 +43,16 @@ export async function handleTransferKeepAlive(ctx: CallHandlerContext) {
     const accountId = getOriginAccountId(ctx.call.origin)
     if (!accountId) return
 
-    // await saveTransfer(ctx, {
-    //     fromId: accountId,
-    //     toId: isAdressSS58(data.to) ? encodeId(data.to) : null,
-    //     amount: data.amount,
-    //     success: ctx.call.success,
-    // })
+    await saveTransfer(ctx, {
+        id: ctx.call.id,
+        extrinsicHash: ctx.extrinsic.hash,
+        timestamp: ctx.block.timestamp,
+        blockNumber: ctx.block.height,
+        fromId: accountId,
+        toId: isAdressSS58(data.to) ? encodeId(data.to) : null,
+        amount: data.amount,
+        success: ctx.call.success,
+        extrinsicIdx: ctx.extrinsic.id,
+        fee: ctx.extrinsic.fee,
+    })
 }

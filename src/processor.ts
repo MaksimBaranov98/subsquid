@@ -22,4 +22,10 @@ processor.addCallHandler(
     modules.balances.extrinsics.handleTransfer
 )
 
+processor.addCallHandler(
+    'Balances.transfer_keep_alive',
+    { triggerForFailedCalls: true },
+    modules.balances.extrinsics.handleTransferKeepAlive
+)
+
 processor.run()
