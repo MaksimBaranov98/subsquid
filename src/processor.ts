@@ -15,6 +15,8 @@ processor.setBlockRange(config.blockRange || { from: 0 })
 
 //events handlers
 processor.addEventHandler('Staking.Rewarded', modules.staking.events.handleRewarded)
+processor.addEventHandler('Staking.Reward', modules.staking.events.handleReward) //Old name of Rewarded event
+// processor.addEventHandler('Staking.Slashed', modules.staking.events.handleSlashed)
 
 processor.addCallHandler(
     'Balances.transfer',

@@ -1,6 +1,6 @@
 import { UnknownVersionError } from '../../../common/errors'
 import { encodeId } from '../../../common/tools'
-import { StakingRewardedEvent } from '../../../types/generated/events'
+import { StakingRewardedEvent, StakingRewardEvent } from '../../../types/generated/events'
 import { EventContext, EventHandlerContext } from '../../types/contexts'
 import { ActionData } from '../../types/data'
 import {
@@ -30,8 +30,26 @@ function getRewardedEventData(ctx: EventContext): EventData | undefined {
   // }
 }
 
-export async function handleRewarded(ctx: EventHandlerContext) {
-  const data = getRewardedEventData(ctx)
+function getRewardEventData(ctx: EventHandlerContext): EventData | undefined {
+  const event = new StakingRewardEvent(ctx)
+
+  if (event.isV1020)
+    return undefined
+  else if (event.isV1050) {
+    const [account, amount] = event.asV1050
+
+    return {
+      account,
+      amount,
+    }
+  }
+  // else {
+  //   throw new UnknownVersionError(event.constructor.name)
+  // }
+}
+
+export async function handleRewarded(ctx: EventHandlerContext, old = false) {
+  const data = old ? getRewardEventData(ctx) : getRewardedEventData(ctx)
 
   if (!data) return
 
@@ -45,6 +63,10 @@ export async function handleRewarded(ctx: EventHandlerContext) {
     validator: ctx.block.validator,
     accountId: encodeId(data.account),
   })
+}
+
+export async function handleReward(ctx: EventHandlerContext) {
+  return handleRewarded(ctx, true)
 }
 
 export interface RewardData extends ActionData {
