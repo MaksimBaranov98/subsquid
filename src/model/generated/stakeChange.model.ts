@@ -16,8 +16,8 @@ export class StakeChange {
     @Column_("text", {nullable: true})
     extrinsicHash!: string | undefined | null
 
-    @Column_("int4", {nullable: false})
-    eventIdx!: number
+    @Column_("text", {nullable: false})
+    eventIdx!: string
 
     @Index_()
     @Column_("numeric", {transformer: marshal.bigintTransformer, nullable: false})

@@ -45,7 +45,7 @@ type StakeChange @entity {
   id: ID!
   blockNumber: Int!
   extrinsicHash: String
-  eventIdx: Int!
+  eventIdx: String!
   timestamp: BigInt! @index
   address: String! @index
   amount: BigInt!
