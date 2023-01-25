@@ -1,4 +1,4 @@
 export enum BondType {
-  Bonded = "Bonded",
-  Unbonded = "Unbonded",
+    Bonded = "Bonded",
+    Unbonded = "Unbonded",
 }

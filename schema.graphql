@@ -76,3 +76,8 @@ type ErrorEvent @entity {
   id: ID!
   description: String!
 }
+
+enum BondType {
+  Bonded
+  Unbonded
+}

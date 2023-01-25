@@ -1,18 +1,17 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 import { ProcessorConfig } from './types/custom/processorConfig'
 
 const config: ProcessorConfig = {
-    chainName: 'kusama',
-    prefix: 'kusama',
+    chainName: 'polkadot',
+    prefix: 'polkadot',
     dataSource: {
-        archive: 'https://kusama.archive.subsquid.io/graphql',
-        chain: 'wss://kusama-rpc.polkadot.io',
+        archive: 'https://polkadot.archive.subsquid.io/graphql',
+        chain: 'wss://rpc.polkadot.io',
     },
-    typesBundle: 'kusama',
-    batchSize: 10,
-    blockRange: {
-        from: 100000,
-    },
+    typesBundle: 'polkadot',
+    batchSize: 100,
+    // blockRange: {
+    //     from: 7567700,
+    // },
 }
 
 export default config
