@@ -1,9 +1,9 @@
 import { UnknownVersionError } from '../../../common/errors'
 import { getOriginAccountId } from '../../../common/tools'
-import { BondType } from '../../../model'
 import { StakingBondCall } from '../../../types/generated/calls'
 import { CallContext, CallHandlerContext } from '../../types/contexts'
 import { saveBond } from '../utils'
+import { BondType } from '../../types'
 
 interface CallData {
   amount: bigint
