@@ -1,4 +1,3 @@
-import { BondType } from '../../model'
 import { CommonHandlerContext } from '../types/contexts'
 import { ActionData } from '../types/data'
 import {
@@ -6,6 +5,7 @@ import {
   AccumulatedStake
 } from '../../model'
 import { EventHandlerContext } from '../types/contexts'
+import { BondType } from '../types'
 
 export interface BondData extends ActionData {
   amount: bigint
